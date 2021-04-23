@@ -23,7 +23,7 @@ public class VoucherController {
     @PostMapping(value = "purchase-prepaid-data")
     public ResultDTO purchasePrepaidData(@RequestHeader(value = "Accept-Language", defaultValue = "vi") String language,
                                          @RequestHeader(value = "Accept-Token") String token, @RequestBody PurchasePrepaidDataDTO purchasePrepaidDataDTO)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+            throws Exception {
         UUID uuid = UUID.randomUUID();
         MessageDigest salt = MessageDigest.getInstance("SHA-256");
         salt.update(UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
