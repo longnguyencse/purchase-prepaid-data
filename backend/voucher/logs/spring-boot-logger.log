@@ -1,0 +1,110 @@
+2021-04-23 19:27:51,878 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting VoucherApplication using Java 1.8.0_282 on long-pc with PID 7470 (/home/long/Documents/long/NAB/backend/voucher/build/classes/java/main started by long in /home/long/Documents/long/NAB/backend/voucher)
+2021-04-23 19:27:51,881 INFO org.springframework.boot.SpringApplication [restartedMain] The following profiles are active: local
+2021-04-23 19:27:51,930 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-04-23 19:27:51,931 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-04-23 19:27:53,136 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-04-23 19:27:53,147 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:27:53,148 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-04-23 19:27:53,148 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-04-23 19:27:53,150 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Loaded Apache Tomcat Native library [1.2.23] using APR version [1.6.5].
+2021-04-23 19:27:53,150 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2021-04-23 19:27:53,151 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2021-04-23 19:27:53,168 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] OpenSSL successfully initialized [OpenSSL 1.1.1f  31 Mar 2020]
+2021-04-23 19:27:53,233 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-04-23 19:27:53,235 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 1303 ms
+2021-04-23 19:27:53,509 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-23 19:27:53,775 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-04-23 19:27:53,794 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:27:53,815 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-23 19:27:53,828 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started VoucherApplication in 2.426 seconds (JVM running for 2.912)
+2021-04-23 19:31:19,662 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8081-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-23 19:31:19,662 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-04-23 19:31:19,663 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Completed initialization in 1 ms
+2021-04-23 19:32:01,691 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-23 19:32:04,881 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting VoucherApplication using Java 1.8.0_282 on long-pc with PID 7862 (/home/long/Documents/long/NAB/backend/voucher/build/classes/java/main started by long in /home/long/Documents/long/NAB/backend/voucher)
+2021-04-23 19:32:04,883 INFO org.springframework.boot.SpringApplication [restartedMain] The following profiles are active: local
+2021-04-23 19:32:04,916 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-04-23 19:32:04,917 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-04-23 19:32:05,493 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-04-23 19:32:05,500 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:32:05,500 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-04-23 19:32:05,501 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-04-23 19:32:05,502 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Loaded Apache Tomcat Native library [1.2.23] using APR version [1.6.5].
+2021-04-23 19:32:05,503 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2021-04-23 19:32:05,503 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2021-04-23 19:32:05,509 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] OpenSSL successfully initialized [OpenSSL 1.1.1f  31 Mar 2020]
+2021-04-23 19:32:05,536 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-04-23 19:32:05,536 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 618 ms
+2021-04-23 19:32:05,662 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-23 19:32:05,803 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-04-23 19:32:05,813 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:32:05,821 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-23 19:32:05,828 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started VoucherApplication in 1.228 seconds (JVM running for 1.71)
+2021-04-23 19:32:09,834 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8081-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-23 19:32:09,834 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-04-23 19:32:09,835 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Completed initialization in 1 ms
+2021-04-23 19:32:42,426 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-9] Resolved [org.springframework.web.bind.MissingRequestHeaderException: Required request header 'Accept-Token' for method parameter type String is not present]
+2021-04-23 19:33:15,293 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-2] Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `abaca.com.voucher.constant.GSMType` from String "MOBIPHONE": not one of the values accepted for Enum class: [VINAPHONE, VIETTEL, MOBIFONE]; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `abaca.com.voucher.constant.GSMType` from String "MOBIPHONE": not one of the values accepted for Enum class: [VINAPHONE, VIETTEL, MOBIFONE]
+ at [Source: (PushbackInputStream); line: 2, column: 16] (through reference chain: abaca.com.voucher.dto.PurchasePrepaidDataDTO["gsmType"])]
+2021-04-23 19:38:42,612 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-23 19:38:45,865 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting VoucherApplication using Java 1.8.0_282 on long-pc with PID 8406 (/home/long/Documents/long/NAB/backend/voucher/build/classes/java/main started by long in /home/long/Documents/long/NAB/backend/voucher)
+2021-04-23 19:38:45,868 INFO org.springframework.boot.SpringApplication [restartedMain] The following profiles are active: local
+2021-04-23 19:38:45,940 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-04-23 19:38:45,941 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-04-23 19:38:46,971 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-04-23 19:38:46,980 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:38:46,980 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-04-23 19:38:46,980 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-04-23 19:38:46,982 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Loaded Apache Tomcat Native library [1.2.23] using APR version [1.6.5].
+2021-04-23 19:38:46,983 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2021-04-23 19:38:46,983 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2021-04-23 19:38:47,039 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] OpenSSL successfully initialized [OpenSSL 1.1.1f  31 Mar 2020]
+2021-04-23 19:38:47,082 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-04-23 19:38:47,083 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 1140 ms
+2021-04-23 19:38:47,254 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-23 19:38:47,421 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-04-23 19:38:47,432 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:38:47,476 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-23 19:38:47,485 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started VoucherApplication in 2.044 seconds (JVM running for 2.411)
+2021-04-23 19:38:50,876 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-23 19:39:48,436 WARN org.springframework.boot.ImageBanner [restartedMain] Image banner not printable: class path resource [banner.txt] (class java.lang.IllegalStateException: 'Unable to read image banner source')
+2021-04-23 19:39:48,493 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting VoucherApplication using Java 1.8.0_282 on long-pc with PID 8621 (/home/long/Documents/long/NAB/backend/voucher/build/classes/java/main started by long in /home/long/Documents/long/NAB/backend/voucher)
+2021-04-23 19:39:48,494 INFO org.springframework.boot.SpringApplication [restartedMain] The following profiles are active: local
+2021-04-23 19:39:48,551 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-04-23 19:39:48,551 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-04-23 19:39:49,419 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-04-23 19:39:49,429 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:39:49,430 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-04-23 19:39:49,431 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-04-23 19:39:49,434 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Loaded Apache Tomcat Native library [1.2.23] using APR version [1.6.5].
+2021-04-23 19:39:49,435 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2021-04-23 19:39:49,437 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2021-04-23 19:39:49,442 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] OpenSSL successfully initialized [OpenSSL 1.1.1f  31 Mar 2020]
+2021-04-23 19:39:49,497 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-04-23 19:39:49,498 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 946 ms
+2021-04-23 19:39:49,679 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-23 19:39:49,800 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-04-23 19:39:49,836 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:39:49,866 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-23 19:39:49,879 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started VoucherApplication in 1.796 seconds (JVM running for 2.121)
+2021-04-23 19:40:14,447 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-23 19:40:16,650 WARN org.springframework.boot.ImageBanner [restartedMain] Image banner not printable: class path resource [banner.txt] (class java.lang.IllegalStateException: 'Unable to read image banner source')
+2021-04-23 19:40:16,691 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting VoucherApplication using Java 1.8.0_282 on long-pc with PID 8757 (/home/long/Documents/long/NAB/backend/voucher/build/classes/java/main started by long in /home/long/Documents/long/NAB/backend/voucher)
+2021-04-23 19:40:16,692 INFO org.springframework.boot.SpringApplication [restartedMain] The following profiles are active: local
+2021-04-23 19:40:16,718 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-04-23 19:40:16,719 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-04-23 19:40:17,211 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-04-23 19:40:17,216 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:40:17,216 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-04-23 19:40:17,216 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-04-23 19:40:17,218 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Loaded Apache Tomcat Native library [1.2.23] using APR version [1.6.5].
+2021-04-23 19:40:17,218 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2021-04-23 19:40:17,218 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2021-04-23 19:40:17,220 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] OpenSSL successfully initialized [OpenSSL 1.1.1f  31 Mar 2020]
+2021-04-23 19:40:17,241 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-04-23 19:40:17,241 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 522 ms
+2021-04-23 19:40:17,339 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-23 19:40:17,418 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-04-23 19:40:17,435 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-04-23 19:40:17,447 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-23 19:40:17,458 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started VoucherApplication in 1.046 seconds (JVM running for 1.4)
