@@ -1,6 +1,7 @@
 package abaca.com.voucher.dto;
 
-import abaca.com.voucher.constant.GSMType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,11 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-public class PurchasePrepaidDataDTO {
+@AllArgsConstructor
+@Builder
+public class VoucherDataDTO {
     private String phone;
+    private String voucherCode;
     private BigDecimal amount;
+    private String currency;
 }

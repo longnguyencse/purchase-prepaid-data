@@ -9,10 +9,10 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode
 @ToString
-public class ResultDTO {
+public class ResultDTO<T> {
     @Builder.Default
     private boolean  success = true;
     private String message;
-    private Object data;
+    private T data;
     private int errorCode;
 }
