@@ -1,0 +1,145 @@
+version: "3.5"
+
+x-database-config-data:
+  &mysql-connection-data
+  environment:
+    DB_USER: "root"
+    DB_PASSWORD: "root"
+    DB_HOST: "db"
+    DB_PORT: "3306"
+    DB_NAME: "purchase_data"
+    MYSQL_ROOT_PASSWORD: "root"
+    PORT: 8080
+
+services:
+
+  jio-db:
+    image: mysql:5.7.10
+    container_name: jio-db
+    ports:
+      - 3306:3306
+    <<: *mysql-connection-data
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./config/mysql/init.sql:/data/application/init.sql
+      - jio-db-volume:/var/lib/mysql
+    networks:
+      - jio-network
+
+  jio-notification:
+    build:
+      context: ./backend/jio-notification
+      dockerfile: ./Dockerfile
+    image: jio-notification
+    container_name: jio-notification
+    depends_on:
+      - jio-db
+      - jio-redis
+    ports:
+      - 8182:8080
+    networks:
+      - jio-network
+    <<: *mysql-connection-data
+
+  jio-mobile:
+    build:
+      context: ./backend/jio-mobile
+      dockerfile: ./Dockerfile
+    #    image: ghcr.io/jiohealth/monorepo/jio-mobile:latest
+    image: jio-mobile:latest
+    container_name: jio-mobile
+    depends_on:
+      - jio-db
+      - jio-redis
+    ports:
+      - 8183:8080
+    networks:
+      - jio-network
+    <<: *mysql-connection-data
+
+  jio-web:
+    build:
+      context: ./backend/jio-web
+      dockerfile: ./Dockerfile
+    #        image: ghcr.io/jiohealth/monorepo/jio-web:latest
+    image: jio-web:latest
+    container_name: jio-web
+    depends_on:
+      - jio-db
+      - jio-redis
+    ports:
+      - 8184:8080
+    networks:
+      - jio-network
+    <<: *mysql-connection-data
+
+  jio-websocket:
+    build:
+      context: ./backend/jio-websocket
+      dockerfile: ./Dockerfile
+    #        image: ghcr.io/jiohealth/monorepo/jio-websocket:latest
+    image: jio-websocket:latest
+    container_name: jio-websocket
+    depends_on:
+      - jio-db
+      - jio-redis
+    ports:
+      - 8185:8080
+    networks:
+      - jio-network
+    <<: *mysql-connection-data
+
+  jio-pharmacy:
+    build:
+      context: ./backend/jio-pharmacy
+      dockerfile: ./Dockerfile
+    #        image: ghcr.io/jiohealth/monorepo/jio-pharmacy:latest
+    image: jio-pharmacy:latest
+    container_name: jio-pharmacy
+    depends_on:
+      - jio-db
+      - jio-redis
+    ports:
+      - 8186:8080
+    networks:
+      - jio-network
+    <<: *mysql-connection-data
+
+  jio-bff-mobile:
+    build:
+      context: ./backend/jio-bff-mobile
+      dockerfile: ./Dockerfile
+    #        image: ghcr.io/jiohealth/monorepo/jio-pharmacy:latest
+    image: jio-bff-mobile:latest
+    container_name: jio-bff-mobile
+    depends_on:
+      - jio-db
+    ports:
+      - 9091:9091
+    networks:
+      - jio-network
+    <<: *mysql-connection-data
+
+  jio-pharmacy-product:
+    build:
+      context: ./backend/jio-pharmacy-product
+      dockerfile: ./Dockerfile
+    #        image: ghcr.io/jiohealth/monorepo/jio-pharmacy:latest
+    image: jio-pharmacy-product:latest
+    container_name: jio-pharmacy-product
+    depends_on:
+      - jio-db
+      - jio-redis
+    ports:
+      - 9092:9092
+    networks:
+      - jio-network
+    <<: *mysql-connection-data
+
+volumes:
+  jio-db-volume:
+    name: jio-db-volume
+networks:
+  jio-network:
+    name: jio-network
+    driver: bridge
