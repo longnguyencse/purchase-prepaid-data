@@ -6,5 +6,5 @@ import abaca.com.voucher.dto.VoucherDataDTO;
 import java.security.NoSuchAlgorithmException;
 
 public interface VoucherService {
-    VoucherDataDTO getVoucherPrePaidData(PurchasePrepaidDataDTO purchasePrepaidDataDTO) throws NoSuchAlgorithmException;
+    VoucherDataDTO getVoucherPrePaidData(PurchasePrepaidDataDTO purchasePrepaidDataDTO) throws NoSuchAlgorithmException, InterruptedException;
 }
