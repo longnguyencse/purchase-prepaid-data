@@ -35,6 +35,9 @@ public class ConfigProvider {
         OkHttpClient okHttpClient =
                 new OkHttpClient.Builder()
                         .dispatcher(dispatcher)
+                        .connectTimeout(15000, TimeUnit.MILLISECONDS)
+                        .readTimeout(150000, TimeUnit.MILLISECONDS)
+                        .dispatcher(dispatcher)
                         .addInterceptor(logging)
                         .connectionPool(new ConnectionPool(100, 30, TimeUnit.SECONDS))
                         .build();

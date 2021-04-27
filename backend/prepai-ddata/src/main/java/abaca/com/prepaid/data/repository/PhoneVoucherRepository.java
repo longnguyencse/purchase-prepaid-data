@@ -1,17 +1,16 @@
 package abaca.com.prepaid.data.repository;
 
+import abaca.com.prepaid.data.model.PhoneVoucherEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import abaca.com.prepaid.data.model.PhoneEntity;
-
 @Repository
-public interface PhoneRepository extends JpaRepository<PhoneEntity, Long>{
+public interface PhoneVoucherRepository extends JpaRepository<PhoneVoucherEntity, Long> {
 
   /**
    * @param phoneStr
    * @return
    */
-  PhoneEntity findByPhoneNumber(String phoneStr);
+  PhoneVoucherEntity findByPhoneNumber(String phoneStr);
 
 }

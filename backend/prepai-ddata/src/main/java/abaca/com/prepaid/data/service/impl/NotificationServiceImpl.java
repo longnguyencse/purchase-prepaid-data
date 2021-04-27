@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class NotificationServiceImpl implements NotificationService {
     @Override
     public boolean sendSMS(String data) {
-        // TODO: Call notifice service to send sms
+        // TODO: Call notification service to send sms
         return false;
     }
 }

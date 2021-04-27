@@ -4,22 +4,17 @@ package abaca.com.prepaid.data.controller;
 import abaca.com.prepaid.data.dto.PrepaidDataDTO;
 import abaca.com.prepaid.data.dto.ResultDTO;
 import abaca.com.prepaid.data.dto.VoucherDataDTO;
-import abaca.com.prepaid.data.model.PhoneEntity;
-import abaca.com.prepaid.data.repository.PhoneRepository;
+import abaca.com.prepaid.data.enums.PhoneTransactionEnum;
+import abaca.com.prepaid.data.model.PhoneVoucherEntity;
+import abaca.com.prepaid.data.repository.PhoneVoucherRepository;
 import abaca.com.prepaid.data.service.PurchaseDataService;
 import abaca.com.prepaid.data.utils.PhoneUtils;
 import lombok.extern.slf4j.Slf4j;
-
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
-import java.util.concurrent.CompletableFuture;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(value = "purchase-data")
@@ -28,42 +23,40 @@ public class PurchaseDataController {
 
     @Autowired
     PurchaseDataService purchaseDataService;
-    
+
     @Autowired
-    PhoneRepository phoneRepository;
-    
+    PhoneVoucherRepository phoneVoucherRepository;
 
     @PostMapping(value = "/prepaid")
-    public ResultDTO<VoucherDataDTO> purchaseDataPrepaid(@RequestBody PrepaidDataDTO prepaidDataDTO) {
+    public CompletableFuture<ResultDTO<VoucherDataDTO>> prepareDataVoucher(
+            @RequestBody PrepaidDataDTO prepaidDataDTO) {
 
-        return ResultDTO.<VoucherDataDTO>builder()
-                .data(purchaseDataService.purchaseData(prepaidDataDTO))
-                .build();
+        //Validate phone
+        final String phoneStr = PhoneUtils.generatePhoneFormat(prepaidDataDTO.getPhone());
+        final LocalDateTime currentTime = LocalDateTime.now();
+        PhoneVoucherEntity phoneVoucherEntity = PhoneVoucherEntity.builder().phoneNumber(phoneStr).createTime(currentTime)
+                .transmissionTime(currentTime)
+                .status(PhoneTransactionEnum.PREPARING_VOUCHER_DATA.getValue()).build();
+        phoneVoucherRepository.save(phoneVoucherEntity);
+        log.info("ID " + phoneVoucherEntity.getId());
+        Long phoneVoucherID = phoneVoucherEntity.getId();
+        final CompletableFuture<ResultDTO<VoucherDataDTO>> futureResult =
+                new CompletableFuture<>();
+        final ResultDTO<VoucherDataDTO> dataResult = ResultDTO.<VoucherDataDTO>builder()
+                .data(VoucherDataDTO.builder()
+                        .id(phoneVoucherEntity.getId())
+                        .build()).message("Voucher is being prepared...").build();
+
+        futureResult.complete(dataResult);
+        CompletableFuture.runAsync(() -> purchaseDataService.purchaseData(prepaidDataDTO, phoneVoucherID));
+        return futureResult;
     }
-    
-//  @PostMapping(value = "/prepaid")
-//  public CompletableFuture<ResultDTO<VoucherDataDTO>> prepareDataVoucher(
-//      @RequestBody PrepaidDataDTO prepaidDataDTO) {
-//    
-//    //Validate phone
-//    final String phoneStr = PhoneUtils.generatePhoneFormat(prepaidDataDTO.getPhone());
-//    PhoneEntity phoneEntity = phoneRepository.findByPhoneNumber(phoneStr);
-//    if(null == phoneEntity) {
-//      log.info("Phone number is not exist in DB, to create new phone");
-//      
-//    }else {
-//      log.info("Phone number is exist in DB");
-//      
-//    }
-//    
-//    final CompletableFuture<ResultDTO<VoucherDataDTO>> futureResult =
-//        new CompletableFuture<>();
-//    final ResultDTO<VoucherDataDTO> dataResult = ResultDTO.<VoucherDataDTO> builder()
-//        .data(null).message("Voucher is being prepared...").build();
-//
-//    futureResult.complete(dataResult);
-//    CompletableFuture.runAsync(() -> purchaseDataService.purchaseData(prepaidDataDTO));
-//
-//    return futureResult;
-//  }
+
+    @GetMapping(value = "")
+    public ResultDTO<VoucherDataDTO> getVoucher(@RequestParam("id") Integer id) {
+        return null;
+//        return ResultDTO.<VoucherDataDTO>BuiBuilder
+//                .
+    }
+
 }
