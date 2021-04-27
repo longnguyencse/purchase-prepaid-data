@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -29,7 +30,7 @@ public class PurchaseDataController {
 
     @PostMapping(value = "/prepaid")
     public CompletableFuture<ResultDTO<VoucherDataDTO>> prepareDataVoucher(
-            @RequestBody PrepaidDataDTO prepaidDataDTO) {
+            @RequestBody PrepaidDataDTO prepaidDataDTO) throws Exception {
 
         //Validate phone
         final String phoneStr = PhoneUtils.generatePhoneFormat(prepaidDataDTO.getPhone());
@@ -52,11 +53,18 @@ public class PurchaseDataController {
         return futureResult;
     }
 
-    @GetMapping(value = "")
-    public ResultDTO<VoucherDataDTO> getVoucher(@RequestParam("id") Integer id) {
-        return null;
-//        return ResultDTO.<VoucherDataDTO>BuiBuilder
-//                .
+    @GetMapping(value = "{id}")
+    public ResultDTO<VoucherDataDTO> getVoucher(@PathVariable("id") Long id) {
+        return ResultDTO.<VoucherDataDTO>builder()
+                .data(purchaseDataService.getVoucher(id))
+                .build();
     }
 
+    @GetMapping(value = "all")
+    public ResultDTO<List<VoucherDataDTO>> getAllVoucher(@RequestParam("phone") String phone, @RequestParam("page") Integer page,
+                                                         @RequestParam("size") Integer size) {
+        return ResultDTO.<List<VoucherDataDTO>>builder()
+                .data(purchaseDataService.getAllVoucher(phone, page, size))
+                .build();
+    }
 }

@@ -10,6 +10,5 @@ public interface PurchaseDataService {
 
     VoucherDataDTO getVoucher(Long id);
 
-    List<VoucherDataDTO> getAllVoucher();
-
+    List<VoucherDataDTO> getAllVoucher(String phoneNumber, Integer page, Integer size);
 }

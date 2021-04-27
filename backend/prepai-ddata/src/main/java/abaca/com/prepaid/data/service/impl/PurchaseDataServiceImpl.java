@@ -13,6 +13,9 @@ import abaca.com.prepaid.data.service.RetrofitVoucherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import retrofit2.Retrofit;
 
@@ -56,9 +59,13 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
                 log.info("begin save voucher");
 
                 PhoneVoucherEntity phoneVoucherEntity = phoneVoucherRepository.findById(phoneVoucherID).orElse(null);
-                phoneVoucherEntity.setTransmissionTime(LocalDateTime.now());
-                phoneVoucherEntity.setVoucherCode(encryptDecryptService.encrypt(voucherDataDTO.getVoucherCode()));
-                phoneVoucherRepository.save(phoneVoucherEntity);
+                if (phoneVoucherEntity != null) {
+                    phoneVoucherEntity.setTransmissionTime(LocalDateTime.now());
+                    phoneVoucherEntity.setVoucherCode(encryptDecryptService.encrypt(voucherDataDTO.getVoucherCode()));
+                    phoneVoucherEntity.setPhoneNumber(voucherDataDTO.getPhone());
+                    phoneVoucherEntity.setVoucherAmount(voucherDataDTO.getAmount());
+                    phoneVoucherRepository.save(phoneVoucherEntity);
+                }
             }
             long timeReceive = System.currentTimeMillis();
             if (timeReceive - timeStart >= timeOutSendSMS * 1000) {
@@ -73,9 +80,9 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
         return null;
     }
 
-    private boolean sendSMS(String data) {
+    private void sendSMS(String data) {
         // TODO: save db, if fail, had scheduler job send again
-        return notificationService.sendSMS(data);
+        notificationService.sendSMS(data);
     }
 
     @Override
@@ -94,7 +101,13 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
     }
 
     @Override
-    public List<VoucherDataDTO> getAllVoucher() {
+    public List<VoucherDataDTO> getAllVoucher(String phoneNumber, Integer page, Integer size) {
+        if (null == page || null == size) {
+            return null;
+        }
+        Pageable pageable =
+                PageRequest.of(page, size, Sort.by("create_time").descending());
+        phoneVoucherRepository.getAllByPhoneNumber(phoneNumber, pageable).orElse(null);
         return null;
     }
 }
