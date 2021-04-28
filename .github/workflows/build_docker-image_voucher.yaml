@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: build jio-bff-mobile qa
+name: build voucher qa
 
 on:
   push:
@@ -11,9 +11,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -29,7 +27,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Grant execute permission for gradlew
-        working-directory: backend/jio-bff-mobile
+        run: chmod +x gradlew
+          working-directory: backend/voucher
       - name: Build Docker image
         run: ./build_docker.sh qa
         env:
