@@ -13,7 +13,7 @@ fi
 # 1. build jar file
 ./gradlew bootJar
 
-docker login ghcr.io -u "$GITHUB_TOKEN" --password-stdin
+docker login ghcr.io -u longnguyencse --password-stdin
 
 docker build \
   -t "${registry}"/"${project}":"$(git rev-parse --short HEAD)" \

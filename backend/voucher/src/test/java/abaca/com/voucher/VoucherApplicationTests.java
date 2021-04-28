@@ -10,4 +10,5 @@ class VoucherApplicationTests {
 	void contextLoads() {
 	}
 
+
 }
