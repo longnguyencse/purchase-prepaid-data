@@ -34,3 +34,4 @@ jobs:
         env:
           CR_PAT: ${{ secrets.CR_PAT }}
         working-directory: backend/voucher
+
