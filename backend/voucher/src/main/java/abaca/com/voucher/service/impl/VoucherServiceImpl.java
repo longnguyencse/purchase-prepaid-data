@@ -17,19 +17,17 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Loggable
     @Override
-    public VoucherDataDTO getVoucherPrePaidData(PurchasePrepaidDataDTO purchasePrepaidDataDTO) throws NoSuchAlgorithmException, InterruptedException {
-        UUID uuid = UUID.randomUUID();
-        MessageDigest salt = MessageDigest.getInstance("SHA-256");
-        salt.update(uuid.toString().getBytes(StandardCharsets.UTF_8));
-        String digest = BytesToHex.bytesToHex(salt.digest());
-        int random = (int )(Math.random() * 50 + 1);
-        Thread.sleep(random * 1000);
-        return VoucherDataDTO.builder()
-                .amount(purchasePrepaidDataDTO.getAmount())
-                .voucherCode(digest)
-                .phone(purchasePrepaidDataDTO.getPhone())
-                .currency("VND")
-                .build();
+    public VoucherDataDTO getVoucherPrePaidData(PurchasePrepaidDataDTO purchasePrepaidDataDTO)
+        throws NoSuchAlgorithmException, InterruptedException {
+      UUID uuid = UUID.randomUUID();
+      MessageDigest salt = MessageDigest.getInstance("SHA-256");
+      salt.update(uuid.toString().getBytes(StandardCharsets.UTF_8));
+      String digest = BytesToHex.bytesToHex(salt.digest());
+      int random = (int) (Math.random() * 50 + 1);
+      Thread.sleep(random * 1000);
+      return VoucherDataDTO.builder().amount(purchasePrepaidDataDTO.getAmount())
+          .voucherCode(digest).phone(purchasePrepaidDataDTO.getPhone()).currency("VND")
+          .build();
     }
 }
 
