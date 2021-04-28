@@ -1,5 +1,7 @@
 package abaca.com.notification.service;
 
+import abaca.com.jms.dto.PhoneVoucherJmsDto;
+
 public interface NotificationService {
-    boolean sendSMS(String msg);
+    boolean sendSMS(final PhoneVoucherJmsDto phoneVoucherJmsDto);
 }
