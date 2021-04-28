@@ -5,7 +5,7 @@ name: build voucher qa
 
 on:
   push:
-    branches: [ sit/** ]
+    branches: [ sit/** , main ]
     paths:
       - 'backend/voucher/**'
 
@@ -34,4 +34,24 @@ jobs:
         env:
           CR_PAT: ${{ secrets.CR_PAT }}
         working-directory: backend/voucher
+  push_to_registry:
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v2
+        working-directory: backend/voucher
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: longnguencse/purchase-prepaid-data/voucher
+          dockerfile: backend/voucher/Dockerfile
+          tag_with_ref: true
+
 

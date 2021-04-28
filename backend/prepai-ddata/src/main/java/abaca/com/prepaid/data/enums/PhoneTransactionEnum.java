@@ -4,26 +4,34 @@ package abaca.com.prepaid.data.enums;
  * The Enum PhoneTransactionEnum.
  */
 public enum PhoneTransactionEnum {
-  
-  /** The undefined. */
-  UNDEFINED((short) 0, "undefined"), 
- /** The preparing voucher data. */
- PREPARING_VOUCHER_DATA((short) 1, "Preparing data"),
-  
-  /** The success. */
-  SUCCESS((short) 2, "Success"), 
- /** The failed. */
- FAILED((short) 3, "Failed");
 
-  /** The value. */
-  private final short value;
+    /**
+     * The preparing voucher data.
+     */
+    PREPARING_VOUCHER_DATA((short) 1, "Preparing data"),
 
-  /** The text. */
-  private final String text;
+    /**
+     * The success.
+     */
+    SUCCESS((short) 2, "Success"),
+    /**
+     * The failed.
+     */
+    FAILED((short) 3, "Failed");
 
-  /**
-   * Instantiates a new phone transaction enum.
-   *
+    /**
+     * The value.
+     */
+    private final short value;
+
+    /**
+     * The text.
+     */
+    private final String text;
+
+    /**
+     * Instantiates a new phone transaction enum.
+     *
    * @param value the value
    * @param text the text
    */

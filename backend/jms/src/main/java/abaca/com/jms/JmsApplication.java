@@ -1,12 +1,15 @@
-package abaca.com.voucher;
+package abaca.com.jms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jms.annotation.EnableJms;
 
 @SpringBootApplication
-public class VoucherApplication {
+@EnableJms
+public class JmsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VoucherApplication.class, args);
+		SpringApplication.run(JmsApplication.class, args);
 	}
+
 }
