@@ -35,7 +35,7 @@ jobs:
       - name: Build Docker image
         run: ./build_docker.sh qa
         env:
-          CR_PAT: ${{ secrets.CR_PAT }}
+          GITHUB_TOKEN: ${{GITHUB_TOKEN}}
         working-directory: backend/voucher
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v2
