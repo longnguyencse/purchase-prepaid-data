@@ -1,9 +1,11 @@
 package abaca.com.prepaid.data.service.impl;
 
+import abaca.com.jms.dto.PhoneVoucherJmsDto;
 import abaca.com.prepaid.data.dto.PrepaidDataDTO;
 import abaca.com.prepaid.data.dto.PurchasePrepaidDataDTO;
 import abaca.com.prepaid.data.dto.ResultDTO;
 import abaca.com.prepaid.data.dto.VoucherDataDTO;
+import abaca.com.prepaid.data.enums.PhoneTransactionEnum;
 import abaca.com.prepaid.data.model.PhoneVoucherEntity;
 import abaca.com.prepaid.data.repository.PhoneVoucherRepository;
 import abaca.com.prepaid.data.service.EncryptDecryptService;
@@ -17,6 +19,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import retrofit2.Retrofit;
 
 import java.time.LocalDateTime;
@@ -27,16 +32,22 @@ import java.util.List;
 public class PurchaseDataServiceImpl implements PurchaseDataService {
 
     @Autowired
-    Retrofit retrofit;
+    private Retrofit retrofit;
 
     @Autowired
-    NotificationService notificationService;
+    private NotificationService notificationService;
 
     @Autowired
-    PhoneVoucherRepository phoneVoucherRepository;
+    private PhoneVoucherRepository phoneVoucherRepository;
 
     @Autowired
-    EncryptDecryptService encryptDecryptService;
+    private EncryptDecryptService encryptDecryptService;
+    
+    private final ObjectMapper objectMapper;
+    
+    public PurchaseDataServiceImpl() {
+      objectMapper = new ObjectMapper();
+    }
 
     @Value("${timeout.send.sms}")
     Integer timeOutSendSMS;
@@ -50,6 +61,7 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
                     .phone(prepaidDataDTO.getPhone())
                     .amount(prepaidDataDTO.getAmount())
                     .build();
+           
             ResultDTO<VoucherDataDTO> resultDTO = retrofitOrderService.purchaseVoucher("vi", "123", data).execute().body();
             VoucherDataDTO voucherDataDTO = null;
             if (null != resultDTO) {
@@ -57,27 +69,44 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
             }
             if (null != voucherDataDTO) {
                 log.info("begin save voucher");
-
-                PhoneVoucherEntity phoneVoucherEntity = phoneVoucherRepository.findById(phoneVoucherID).orElse(null);
-                if (phoneVoucherEntity != null) {
-                    phoneVoucherEntity.setTransmissionTime(LocalDateTime.now());
-                    phoneVoucherEntity.setVoucherCode(encryptDecryptService.encrypt(voucherDataDTO.getVoucherCode()));
-                    phoneVoucherEntity.setPhoneNumber(voucherDataDTO.getPhone());
-                    phoneVoucherEntity.setVoucherAmount(voucherDataDTO.getAmount());
-                    phoneVoucherRepository.save(phoneVoucherEntity);
-                }
+                this.updatePhoneVoucher(phoneVoucherID, voucherDataDTO, true);
             }
             long timeReceive = System.currentTimeMillis();
             if (timeReceive - timeStart >= timeOutSendSMS * 1000) {
-                // TODO: message queue
-                String msg = "";
-                sendSMS(msg);
+              // TODO: message queue
+              final PhoneVoucherJmsDto phoneJmsDto =
+                  PhoneVoucherJmsDto.builder().phoneNumber(prepaidDataDTO.getPhone())
+                      .message("Purchase voucher successfully!").build();
+              String msg = objectMapper.writeValueAsString(phoneJmsDto);
+              sendSMS(msg);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
+            this.updatePhoneVoucher(phoneVoucherID, null, false);
             return null;
         }
         return null;
+    }
+    
+    private void updatePhoneVoucher(final Long phoneVoucherID,
+        final VoucherDataDTO voucherDataDTO, boolean isSuccess) {
+      PhoneVoucherEntity phoneVoucherEntity =
+          phoneVoucherRepository.findById(phoneVoucherID).orElse(null);
+      if (null == phoneVoucherEntity) {
+        log.warn("Update failed: PhoneVoucherEntity is null");
+        return;
+      }
+      if (isSuccess) {
+        phoneVoucherEntity
+            .setVoucherCode(encryptDecryptService.encrypt(voucherDataDTO.getVoucherCode()));
+        phoneVoucherEntity.setVoucherAmount(voucherDataDTO.getAmount());
+        phoneVoucherEntity.setStatus(PhoneTransactionEnum.SUCCESS.getValue());
+      } else {
+        phoneVoucherEntity.setStatus(PhoneTransactionEnum.FAILED.getValue());
+      }
+      phoneVoucherEntity.setTransmissionTime(LocalDateTime.now());
+      phoneVoucherRepository.save(phoneVoucherEntity);
+      log.info("Update phone voucher successfully: {}", phoneVoucherEntity.toString());
     }
 
     private void sendSMS(String data) {

@@ -31,8 +31,20 @@ public class PurchaseDataController {
     @PostMapping(value = "/prepaid")
     public CompletableFuture<ResultDTO<VoucherDataDTO>> prepareDataVoucher(
             @RequestBody PrepaidDataDTO prepaidDataDTO) throws Exception {
+      
+        final CompletableFuture<ResultDTO<VoucherDataDTO>> futureResult =
+          new CompletableFuture<>();
+        ResultDTO<VoucherDataDTO> dataResult = ResultDTO.<VoucherDataDTO>builder().build();
 
         //Validate phone
+        if(!PhoneUtils.isValidPhoneNumber(prepaidDataDTO.getPhone())) {
+          log.warn("Phone number is invalid.");
+          dataResult.setSuccess(false);
+          dataResult.setMessage("Phone number is invalid.");
+          futureResult.complete(dataResult);
+          return futureResult;
+        }
+        
         final String phoneStr = PhoneUtils.generatePhoneFormat(prepaidDataDTO.getPhone());
         final LocalDateTime currentTime = LocalDateTime.now();
         PhoneVoucherEntity phoneVoucherEntity = PhoneVoucherEntity.builder().phoneNumber(phoneStr).createTime(currentTime)
@@ -41,15 +53,12 @@ public class PurchaseDataController {
         phoneVoucherRepository.save(phoneVoucherEntity);
         log.info("ID " + phoneVoucherEntity.getId());
         Long phoneVoucherID = phoneVoucherEntity.getId();
-        final CompletableFuture<ResultDTO<VoucherDataDTO>> futureResult =
-                new CompletableFuture<>();
-        final ResultDTO<VoucherDataDTO> dataResult = ResultDTO.<VoucherDataDTO>builder()
+        dataResult = ResultDTO.<VoucherDataDTO>builder()
                 .data(VoucherDataDTO.builder()
                         .id(phoneVoucherEntity.getId())
                         .build()).message("Voucher is being prepared...").build();
-
-        futureResult.complete(dataResult);
         CompletableFuture.runAsync(() -> purchaseDataService.purchaseData(prepaidDataDTO, phoneVoucherID));
+        futureResult.complete(dataResult);
         return futureResult;
     }
 

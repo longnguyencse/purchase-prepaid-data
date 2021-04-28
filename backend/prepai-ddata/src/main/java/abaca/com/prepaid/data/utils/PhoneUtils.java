@@ -3,9 +3,12 @@ package abaca.com.prepaid.data.utils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.MessageFormat;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class PhoneUtils {
+  private static final Pattern CHECK_PHONE_NUMBER_PATTERN = Pattern.compile("^0\\d{0}\\d{11}$");
+  
   public static String generatePhoneFormat(final String phoneStr) throws Exception {
     String result = null;
     try {
@@ -20,4 +23,13 @@ public class PhoneUtils {
     }
     return result;
   }
+  
+  public static boolean isValidPhoneNumber(final String phoneStr) {
+    boolean result = false;
+    if(CHECK_PHONE_NUMBER_PATTERN.matcher(phoneStr).matches()) {
+      result = true;
+    }
+    return result;
+  }
+  
 }
