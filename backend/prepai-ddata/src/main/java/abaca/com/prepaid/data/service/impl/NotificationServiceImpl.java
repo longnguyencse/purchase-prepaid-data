@@ -1,5 +1,6 @@
 package abaca.com.prepaid.data.service.impl;
 
+import abaca.com.jms.queue.JmsQueueName;
 import abaca.com.jms.service.JmsRequestResponseTemplate;
 import abaca.com.jms.service.JmsRequestResponseTemplateImpl;
 import abaca.com.prepaid.data.service.NotificationService;
@@ -22,8 +23,8 @@ public class NotificationServiceImpl implements NotificationService {
       // TODO: Call notification service to send sms
       boolean result = false;
       try {
-        final TextMessage textMessage =
-            (TextMessage) jmsRequestResponseTemplate.sendAndReceive("test-queue-name", data);
+        final TextMessage textMessage = (TextMessage) jmsRequestResponseTemplate
+            .sendAndReceive(JmsQueueName.PHONE_VOUCHER_NOTIFICATION, data);
         if (null != textMessage) {
           log.info("Sent data successfully");
           result = true;

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import abaca.com.jms.dto.PhoneVoucherJmsDto;
+import abaca.com.jms.queue.JmsQueueName;
 import abaca.com.notification.service.NotificationService;
 
 @Service
@@ -26,7 +27,7 @@ public class ConsumerNotificationService {
   @Autowired
   private NotificationService notificationService;
   
-  @JmsListener(destination = "test-queue-name")
+  @JmsListener(destination = JmsQueueName.PHONE_VOUCHER_NOTIFICATION)
   public void receiveMessage(final Message jsonMessage)
       throws JMSException, JsonMappingException, JsonProcessingException {
     System.out.println("Received message " + jsonMessage);
