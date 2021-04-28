@@ -50,7 +50,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           repository: longnguencse/purchase-prepaid-data/voucher
-          dockerfile: backend/voucher/Dockerfile
+          context: ${{ github.workspace }}/backend/voucher
           tag_with_ref: true
 
 
