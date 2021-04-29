@@ -1,13 +1,13 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: build core-prepaid-data qa
+name: build notification qa
 
 on:
   push:
     branches: [ sit/** , main ]
     paths:
-      - 'backend/prepaid-data/**'
+      - 'backend/notification/**'
 
 jobs:
   build:
@@ -31,20 +31,20 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        working-directory: backend/prepaid-data
+        working-directory: backend/notification
       - name: Build Docker image
         run: ./build_docker.sh qa
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        working-directory: backend/prepaid-data
+        working-directory: backend/notification
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v2
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: longnguencse/purchase-prepaid-data/prepaid-data
-          context: ${{ github.workspace }}/backend/prepaid-data
+          repository: longnguencse/purchase-prepaid-data/notification
+          context: ${{ github.workspace }}/backend/notification
           tag_with_ref: true
 
 
