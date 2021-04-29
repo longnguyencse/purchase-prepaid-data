@@ -1,6 +1,5 @@
 package abaca.com.prepaid.data.service.impl;
 
-import abaca.com.jms.dto.PhoneVoucherJmsDto;
 import abaca.com.prepaid.data.dto.PrepaidDataDTO;
 import abaca.com.prepaid.data.dto.PurchasePrepaidDataDTO;
 import abaca.com.prepaid.data.dto.ResultDTO;
@@ -12,19 +11,19 @@ import abaca.com.prepaid.data.service.EncryptDecryptService;
 import abaca.com.prepaid.data.service.NotificationService;
 import abaca.com.prepaid.data.service.PurchaseDataService;
 import abaca.com.prepaid.data.service.RetrofitVoucherService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import retrofit2.Retrofit;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,18 +66,20 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
             if (null != resultDTO) {
                 voucherDataDTO = resultDTO.getData();
             }
-            if (null != voucherDataDTO) {
+            if (null == voucherDataDTO) {
                 log.info("begin save voucher");
                 this.updatePhoneVoucher(phoneVoucherID, voucherDataDTO, true);
             }
             long timeReceive = System.currentTimeMillis();
             if (timeReceive - timeStart >= timeOutSendSMS * 1000) {
-              // TODO: message queue
-              final PhoneVoucherJmsDto phoneJmsDto =
-                  PhoneVoucherJmsDto.builder().phoneNumber(prepaidDataDTO.getPhone())
-                      .message("Purchase voucher successfully!").build();
-              String msg = objectMapper.writeValueAsString(phoneJmsDto);
-              sendSMS(msg);
+                // TODO: message queue
+                String msg = "";
+                if (null == voucherDataDTO) {
+                    msg = "Transaction error ";
+                } else {
+                    msg = "your voucher is " + voucherDataDTO.getVoucherCode();
+                }
+                sendSMS(msg);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -130,13 +131,31 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
     }
 
     @Override
-    public List<VoucherDataDTO> getAllVoucher(String phoneNumber, Integer page, Integer size) {
+    public ResultDTO<List<VoucherDataDTO>> getAllVoucher(String phoneNumber, Integer page, Integer size) {
         if (null == page || null == size) {
             return null;
         }
+        List<VoucherDataDTO> voucherDataDTOS = new ArrayList<>();
         Pageable pageable =
                 PageRequest.of(page, size, Sort.by("create_time").descending());
-        phoneVoucherRepository.getAllByPhoneNumber(phoneNumber, pageable).orElse(null);
+        Page<PhoneVoucherEntity> rs = phoneVoucherRepository.getAllByPhoneNumber(phoneNumber, pageable).orElse(null);
+        if (null != rs) {
+            List<PhoneVoucherEntity> phoneVoucherEntities = rs.getContent();
+            for (PhoneVoucherEntity item : phoneVoucherEntities) {
+                voucherDataDTOS.add(VoucherDataDTO.builder()
+                        .amount(item.getVoucherAmount())
+                        .voucherCode(encryptDecryptService.decrypt(item.getVoucherCode()))
+                        .phone(item.getPhoneNumber())
+                        .build());
+            }
+            return ResultDTO.<List<VoucherDataDTO>>builder()
+                    .data(voucherDataDTOS)
+                    .page(page)
+                    .size(size)
+                    .totalPage(rs.getTotalPages())
+                    .totalRecord(rs.getTotalElements())
+                    .build();
+        }
         return null;
     }
 }

@@ -3,6 +3,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import abaca.com.jms.queue.JmsQueueName;
 import abaca.com.notification.service.NotificationService;
 
 @Service
+@Slf4j
 public class ConsumerNotificationService {
   
   private final ObjectMapper objectMapper;
@@ -30,7 +32,7 @@ public class ConsumerNotificationService {
   @JmsListener(destination = JmsQueueName.PHONE_VOUCHER_NOTIFICATION)
   public void receiveMessage(final Message jsonMessage)
       throws JMSException, JsonMappingException, JsonProcessingException {
-    System.out.println("Received message " + jsonMessage);
+    log.info("Received message " + jsonMessage);
     if (jsonMessage instanceof TextMessage) {
       TextMessage textMessage = (TextMessage) jsonMessage;
       final String messageData = textMessage.getText();

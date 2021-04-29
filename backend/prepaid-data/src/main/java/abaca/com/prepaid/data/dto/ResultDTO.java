@@ -1,12 +1,6 @@
 package abaca.com.prepaid.data.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -21,4 +15,8 @@ public class ResultDTO<T> {
     private String message;
     private T data;
     private int errorCode;
+    private Long totalRecord;
+    private Integer totalPage;
+    private Integer page;
+    private Integer size;
 }

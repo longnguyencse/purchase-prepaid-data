@@ -45,7 +45,7 @@ public class PurchaseDataController {
           return futureResult;
         }
         
-        final String phoneStr = PhoneUtils.generatePhoneFormat(prepaidDataDTO.getPhone());
+        final String phoneStr = prepaidDataDTO.getPhone();
         final LocalDateTime currentTime = LocalDateTime.now();
         PhoneVoucherEntity phoneVoucherEntity = PhoneVoucherEntity.builder().phoneNumber(phoneStr).createTime(currentTime)
                 .transmissionTime(currentTime)
@@ -72,8 +72,7 @@ public class PurchaseDataController {
     @GetMapping(value = "all")
     public ResultDTO<List<VoucherDataDTO>> getAllVoucher(@RequestParam("phone") String phone, @RequestParam("page") Integer page,
                                                          @RequestParam("size") Integer size) {
-        return ResultDTO.<List<VoucherDataDTO>>builder()
-                .data(purchaseDataService.getAllVoucher(phone, page, size))
-                .build();
+
+        return purchaseDataService.getAllVoucher(phone, page, size);
     }
 }
