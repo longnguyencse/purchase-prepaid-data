@@ -8,7 +8,6 @@ import abaca.com.prepaid.data.enums.PhoneTransactionEnum;
 import abaca.com.prepaid.data.model.PhoneVoucherEntity;
 import abaca.com.prepaid.data.repository.PhoneVoucherRepository;
 import abaca.com.prepaid.data.service.PurchaseDataService;
-import abaca.com.prepaid.data.utils.PhoneUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,20 +30,20 @@ public class PurchaseDataController {
     @PostMapping(value = "/prepaid")
     public CompletableFuture<ResultDTO<VoucherDataDTO>> prepareDataVoucher(
             @RequestBody PrepaidDataDTO prepaidDataDTO) throws Exception {
-      
+
         final CompletableFuture<ResultDTO<VoucherDataDTO>> futureResult =
-          new CompletableFuture<>();
+                new CompletableFuture<>();
         ResultDTO<VoucherDataDTO> dataResult = ResultDTO.<VoucherDataDTO>builder().build();
 
         //Validate phone
-        if(!PhoneUtils.isValidPhoneNumber(prepaidDataDTO.getPhone())) {
-          log.warn("Phone number is invalid.");
-          dataResult.setSuccess(false);
-          dataResult.setMessage("Phone number is invalid.");
-          futureResult.complete(dataResult);
-          return futureResult;
-        }
-        
+//        if(!PhoneUtils.isValidPhoneNumber(prepaidDataDTO.getPhone())) {
+//          log.warn("Phone number is invalid.");
+//          dataResult.setSuccess(false);
+//          dataResult.setMessage("Phone number is invalid.");
+//          futureResult.complete(dataResult);
+//          return futureResult;
+//        }
+
         final String phoneStr = prepaidDataDTO.getPhone();
         final LocalDateTime currentTime = LocalDateTime.now();
         PhoneVoucherEntity phoneVoucherEntity = PhoneVoucherEntity.builder().phoneNumber(phoneStr).createTime(currentTime)

@@ -66,13 +66,14 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
             if (null != resultDTO) {
                 voucherDataDTO = resultDTO.getData();
             }
-            if (null == voucherDataDTO) {
+            if (null != voucherDataDTO) {
                 log.info("begin save voucher");
                 this.updatePhoneVoucher(phoneVoucherID, voucherDataDTO, true);
             }
             long timeReceive = System.currentTimeMillis();
-            if (timeReceive - timeStart >= timeOutSendSMS * 1000) {
+            if (timeReceive - timeStart >= 0) {
                 // TODO: message queue
+                log.info("sent sms");
                 String msg = "";
                 if (null == voucherDataDTO) {
                     msg = "Transaction error ";

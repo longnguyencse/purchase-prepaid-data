@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 @Slf4j
 public class PhoneUtils {
-  private static final Pattern CHECK_PHONE_NUMBER_PATTERN = Pattern.compile("^0\\d{0}\\d{11}$");
+  private static final Pattern CHECK_PHONE_NUMBER_PATTERN = Pattern.compile("^[0][1-9]\\d{9}$");
   
   public static String generatePhoneFormat(final String phoneStr) throws Exception {
     String result = null;

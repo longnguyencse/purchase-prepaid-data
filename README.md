@@ -33,6 +33,22 @@ frameworks being used
 
 # Full CURL commands to verify the APIs (include full request endpoint, HTTP
 Headers and request payload if any)
-- get voucher
-- purchase data 
-- send sms
+- get voucher: 
+curl --location --request POST 'http://localhost:8081/voucher/purchase-prepaid-data' \
+--header 'Accept-Language: vi' \
+--header 'Accept-Token: 1' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "phone": "0932467086",
+    "amount": 100000
+}'
+
+- purchase data
+
+curl --location --request POST 'http://localhost:9192/purchase-data/prepaid' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "phone": "0932467086",
+    "amount": 100
+}'
+
