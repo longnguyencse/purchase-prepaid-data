@@ -54,6 +54,7 @@ curl --location --request POST 'http://localhost:9192/purchase-data/prepaid' \
 }'
 
 - Get voucher from phone
+
 curl --location --request GET 'http://localhost:9192/purchase-data/all?page=0&size=10&phone=0932467086'
 
 
