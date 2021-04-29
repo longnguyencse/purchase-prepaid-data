@@ -28,7 +28,8 @@ frameworks being used
 -d mysql/mysql-server:latest
 
 - install rabitmq: in infrastructure/reabitmq: docker-compose up
-- 
+- run java service local
+- java -jar 
 
 
 # Full CURL commands to verify the APIs (include full request endpoint, HTTP
@@ -51,4 +52,8 @@ curl --location --request POST 'http://localhost:9192/purchase-data/prepaid' \
     "phone": "0932467086",
     "amount": 100
 }'
+
+- Get voucher from phone
+curl --location --request GET 'http://localhost:9192/purchase-data/all?page=0&size=10&phone=0932467086'
+
 
