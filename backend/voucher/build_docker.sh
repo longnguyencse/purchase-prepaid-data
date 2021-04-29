@@ -13,11 +13,11 @@ fi
 # 1. build jar file
 ./gradlew bootJar
 
-docker login ghcr.io -u longnguyencse --password-stdin
+#docker login ghcr.io -u longnguyencse --password-stdin
 
 docker build \
   -t "${registry}"/"${project}":"$(git rev-parse --short HEAD)" \
   -t "${registry}"/"${project}":"${environment}"latest .
 
-docker push "${registry}"/"${project}":"$(git rev-parse --short HEAD)"
-docker push "${registry}"/"${project}":"${environment}"latest
+#docker push "${registry}"/"${project}":"$(git rev-parse --short HEAD)"
+#docker push "${registry}"/"${project}":"${environment}"latest
