@@ -15,9 +15,11 @@ frameworks being used
 	- dto
 	- config
 	- utils
-	
+
 - Java 8, Spring Boot, Hibernate/Spring JPA
 - OKHTTP2
+- Message queue: RabitMQ
+
 # All the required steps in order to get the application run on a local computer
 - Install docker
 - run command on infrastructure folder
@@ -29,7 +31,11 @@ frameworks being used
 
 - install rabitmq: in infrastructure/reabitmq: docker-compose up
 - run java service local
-- java -jar 
+	- java -jar prepaid-data-1.0.jar
+	- java -jar voucher-1.0.jar
+	- java -jar notification-1.0.jar
+
+I had build docker for all service by Github CI/CD but dont had time to build docker-compose
 
 
 # Full CURL commands to verify the APIs (include full request endpoint, HTTP
