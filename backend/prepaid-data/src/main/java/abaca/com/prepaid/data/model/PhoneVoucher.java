@@ -1,34 +1,34 @@
 package abaca.com.prepaid.data.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
  * The Class PhoneEntity.
  */
-@Data
+
+@Entity
+@Table(name = "phone_voucher")
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "phone_voucher")
-public class PhoneVoucherEntity {
+public class PhoneVoucher implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(name = "phone_number")
-  private String phoneNumber;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
-  @Column(name = "status")
-  private Short status;
+    @Column(name = "status")
+    private Short status;
 
   @Column(name = "voucher_code")
   private String voucherCode;

@@ -5,7 +5,7 @@ import abaca.com.prepaid.data.dto.PurchasePrepaidDataDTO;
 import abaca.com.prepaid.data.dto.ResultDTO;
 import abaca.com.prepaid.data.dto.VoucherDataDTO;
 import abaca.com.prepaid.data.enums.PhoneTransactionEnum;
-import abaca.com.prepaid.data.model.PhoneVoucherEntity;
+import abaca.com.prepaid.data.model.PhoneVoucher;
 import abaca.com.prepaid.data.repository.PhoneVoucherRepository;
 import abaca.com.prepaid.data.service.EncryptDecryptService;
 import abaca.com.prepaid.data.service.NotificationService;
@@ -92,23 +92,23 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
     
     private void updatePhoneVoucher(final Long phoneVoucherID,
         final VoucherDataDTO voucherDataDTO, boolean isSuccess) {
-      PhoneVoucherEntity phoneVoucherEntity =
-          phoneVoucherRepository.findById(phoneVoucherID).orElse(null);
-      if (null == phoneVoucherEntity) {
-        log.warn("Update failed: PhoneVoucherEntity is null");
-        return;
-      }
-      if (isSuccess) {
-        phoneVoucherEntity
-            .setVoucherCode(encryptDecryptService.encrypt(voucherDataDTO.getVoucherCode()));
-        phoneVoucherEntity.setVoucherAmount(voucherDataDTO.getAmount());
-        phoneVoucherEntity.setStatus(PhoneTransactionEnum.SUCCESS.getValue());
-      } else {
-        phoneVoucherEntity.setStatus(PhoneTransactionEnum.FAILED.getValue());
-      }
-      phoneVoucherEntity.setTransmissionTime(LocalDateTime.now());
-      phoneVoucherRepository.save(phoneVoucherEntity);
-      log.info("Update phone voucher successfully: {}", phoneVoucherEntity.toString());
+        PhoneVoucher phoneVoucher =
+                phoneVoucherRepository.findById(phoneVoucherID).orElse(null);
+        if (null == phoneVoucher) {
+            log.warn("Update failed: PhoneVoucherEntity is null");
+            return;
+        }
+        if (isSuccess) {
+            phoneVoucher
+                    .setVoucherCode(encryptDecryptService.encrypt(voucherDataDTO.getVoucherCode()));
+            phoneVoucher.setVoucherAmount(voucherDataDTO.getAmount());
+            phoneVoucher.setStatus(PhoneTransactionEnum.SUCCESS.getValue());
+        } else {
+            phoneVoucher.setStatus(PhoneTransactionEnum.FAILED.getValue());
+        }
+        phoneVoucher.setTransmissionTime(LocalDateTime.now());
+        phoneVoucherRepository.save(phoneVoucher);
+        log.info("Update phone voucher successfully: {}", phoneVoucher.toString());
     }
 
     private void sendSMS(String data) {
@@ -118,14 +118,14 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
 
     @Override
     public VoucherDataDTO getVoucher(Long id) {
-        PhoneVoucherEntity phoneVoucherEntity = phoneVoucherRepository.findById(id).orElse(null);
-        if (null != phoneVoucherEntity) {
+        PhoneVoucher phoneVoucher = phoneVoucherRepository.findById(id).orElse(null);
+        if (null != phoneVoucher) {
             return
                     VoucherDataDTO.builder()
-                            .phone(phoneVoucherEntity.getPhoneNumber())
-                            .amount(phoneVoucherEntity.getVoucherAmount())
-                            .voucherCode(encryptDecryptService.decrypt(phoneVoucherEntity.getVoucherCode()))
-                            .amount(phoneVoucherEntity.getVoucherAmount())
+                            .phone(phoneVoucher.getPhoneNumber())
+                            .amount(phoneVoucher.getVoucherAmount())
+                            .voucherCode(encryptDecryptService.decrypt(phoneVoucher.getVoucherCode()))
+                            .amount(phoneVoucher.getVoucherAmount())
                             .build();
         }
         return null;
@@ -139,10 +139,15 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
         List<VoucherDataDTO> voucherDataDTOS = new ArrayList<>();
         Pageable pageable =
                 PageRequest.of(page, size, Sort.by("create_time").descending());
-        Page<PhoneVoucherEntity> rs = phoneVoucherRepository.getAllByPhoneNumber(phoneNumber, pageable).orElse(null);
+        List<PhoneVoucher> phoneVouchers = phoneVoucherRepository.findAll();
+
+//        Page<PhoneVoucher> rs = phoneVoucherRepository.getAllByPhoneNumber(phoneNumber, pageable).orElse(null);
+        Page<PhoneVoucher> rs = phoneVoucherRepository.getAllByCreateTimeIsNotNull(pageable);
+
+//        Page<PhoneVoucher> rs = null;
         if (null != rs) {
-            List<PhoneVoucherEntity> phoneVoucherEntities = rs.getContent();
-            for (PhoneVoucherEntity item : phoneVoucherEntities) {
+            List<PhoneVoucher> phoneVoucherEntities = rs.getContent();
+            for (PhoneVoucher item : phoneVoucherEntities) {
                 voucherDataDTOS.add(VoucherDataDTO.builder()
                         .amount(item.getVoucherAmount())
                         .voucherCode(encryptDecryptService.decrypt(item.getVoucherCode()))

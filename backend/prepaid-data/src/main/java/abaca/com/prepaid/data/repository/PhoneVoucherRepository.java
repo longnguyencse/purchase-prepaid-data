@@ -1,22 +1,23 @@
 package abaca.com.prepaid.data.repository;
 
-import abaca.com.prepaid.data.model.PhoneVoucherEntity;
+import abaca.com.prepaid.data.model.PhoneVoucher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
-public interface PhoneVoucherRepository extends JpaRepository<PhoneVoucherEntity, Long> {
+public interface PhoneVoucherRepository extends JpaRepository<PhoneVoucher, Long> {
 
-  /**
-   * @param phoneStr
-   * @return
-   */
-  PhoneVoucherEntity findByPhoneNumber(String phoneStr);
+    List<PhoneVoucher> getAllByPhoneNumber(String phoneStr);
 
-  Optional<Page<PhoneVoucherEntity>> getAllByPhoneNumber(String PhoneStr, Pageable pageable);
+    Page<PhoneVoucher> getAllByCreateTimeIsNotNull(Pageable pageable);
+
+//  Page<PhoneVoucher> findAll(Pageable pageable);
+
+//    List<PhoneVoucher> findALl();
+
 
 }

@@ -5,7 +5,7 @@ import abaca.com.prepaid.data.dto.PrepaidDataDTO;
 import abaca.com.prepaid.data.dto.ResultDTO;
 import abaca.com.prepaid.data.dto.VoucherDataDTO;
 import abaca.com.prepaid.data.enums.PhoneTransactionEnum;
-import abaca.com.prepaid.data.model.PhoneVoucherEntity;
+import abaca.com.prepaid.data.model.PhoneVoucher;
 import abaca.com.prepaid.data.repository.PhoneVoucherRepository;
 import abaca.com.prepaid.data.service.PurchaseDataService;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,7 @@ public class PurchaseDataController {
 
         final String phoneStr = prepaidDataDTO.getPhone();
         final LocalDateTime currentTime = LocalDateTime.now();
-        PhoneVoucherEntity phoneVoucherEntity = PhoneVoucherEntity.builder().phoneNumber(phoneStr).createTime(currentTime)
+        PhoneVoucher phoneVoucherEntity = PhoneVoucher.builder().phoneNumber(phoneStr).createTime(currentTime)
                 .transmissionTime(currentTime)
                 .status(PhoneTransactionEnum.PREPARING_VOUCHER_DATA.getValue()).build();
         phoneVoucherRepository.save(phoneVoucherEntity);
