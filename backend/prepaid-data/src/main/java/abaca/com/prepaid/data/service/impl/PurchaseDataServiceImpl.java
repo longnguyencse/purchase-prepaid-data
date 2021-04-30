@@ -138,13 +138,10 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
         }
         List<VoucherDataDTO> voucherDataDTOS = new ArrayList<>();
         Pageable pageable =
-                PageRequest.of(page, size, Sort.by("create_time").descending());
+                PageRequest.of(page, size, Sort.by("createTime").descending());
         List<PhoneVoucher> phoneVouchers = phoneVoucherRepository.findAll();
 
-//        Page<PhoneVoucher> rs = phoneVoucherRepository.getAllByPhoneNumber(phoneNumber, pageable).orElse(null);
-        Page<PhoneVoucher> rs = phoneVoucherRepository.getAllByCreateTimeIsNotNull(pageable);
-
-//        Page<PhoneVoucher> rs = null;
+        Page<PhoneVoucher> rs = phoneVoucherRepository.findByPhoneNumber(phoneNumber, pageable);
         if (null != rs) {
             List<PhoneVoucher> phoneVoucherEntities = rs.getContent();
             for (PhoneVoucher item : phoneVoucherEntities) {
