@@ -5,4 +5,4 @@ function run_app() {
 }
 
 # Make it rain
-./wait-for-it.sh "${DB_HOST}":"${DB_PORT}" && run_app "$@"
+run_app "$@"

@@ -1,145 +1,94 @@
 version: "3.5"
 
-x-database-config-data:
-  &mysql-connection-data
-  environment:
-    DB_USER: "root"
-    DB_PASSWORD: "root"
-    DB_HOST: "db"
-    DB_PORT: "3306"
-    DB_NAME: "purchase_data"
-    MYSQL_ROOT_PASSWORD: "root"
-    PORT: 8080
-
 services:
 
-  jio-db:
+  mysql-db:
     image: mysql:5.7.10
-    container_name: jio-db
+    container_name: mysql-db
     ports:
       - 3306:3306
-    <<: *mysql-connection-data
-    command: --init-file /data/application/init.sql
     volumes:
-      - ./config/mysql/init.sql:/data/application/init.sql
-      - jio-db-volume:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
     networks:
-      - jio-network
+      - prepaid-data-network
+    environment:
+      - MYSQL_ROOT_HOST='%'
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    restart: unless-stopped
 
-  jio-notification:
-    build:
-      context: ./backend/jio-notification
-      dockerfile: ./Dockerfile
-    image: jio-notification
-    container_name: jio-notification
-    depends_on:
-      - jio-db
-      - jio-redis
+  my-rabitmq:
+    image: rabbitmq:management
+    container_name: my-rabitmq
     ports:
-      - 8182:8080
+      - "5672:5672"
+      - "15672:15672"
     networks:
-      - jio-network
-    <<: *mysql-connection-data
+      - prepaid-data-network
+    restart: unless-stopped
 
-  jio-mobile:
-    build:
-      context: ./backend/jio-mobile
-      dockerfile: ./Dockerfile
-    #    image: ghcr.io/jiohealth/monorepo/jio-mobile:latest
-    image: jio-mobile:latest
-    container_name: jio-mobile
-    depends_on:
-      - jio-db
-      - jio-redis
+  voucher:
+    image: ghcr.io/longnguyencse/purchase-prepaid-data/voucher:${VOUCHER_SERVICE_VERSION}
+    container_name: voucher
     ports:
-      - 8183:8080
+      - 8081:8080
     networks:
-      - jio-network
-    <<: *mysql-connection-data
+      - prepaid-data-network
+    restart: unless-stopped
+    environment:
+      - PROFILE: ${VOUCHER_SERVICE_PROFILE}
+      - PORT: ${INSTANT_PORT}
 
-  jio-web:
-    build:
-      context: ./backend/jio-web
-      dockerfile: ./Dockerfile
-    #        image: ghcr.io/jiohealth/monorepo/jio-web:latest
-    image: jio-web:latest
-    container_name: jio-web
+  prepaid-data:
+    image: ghcr.io/longnguyencse/purchase-prepaid-data/core-prepaid-data:${CORE_PREPAID_VERSION}
+    container_name: prepaid-data
     depends_on:
-      - jio-db
-      - jio-redis
+      - mysql-db
+      - my-rabitmq
     ports:
-      - 8184:8080
+      - 9192:8080
     networks:
-      - jio-network
-    <<: *mysql-connection-data
+      - prepaid-data-network
+    restart: unless-stopped
+    environment:
+      - PROFILE: ${CORE_PREPAID_PROFILE}
+      - DB_USER: ${DB_USER}
+      - DB_PASSWORD: ${DB_PASSWORD}
+      - DB_HOST: ${DB_HOST}
+      - DB_PORT: ${DB_PORT}
+      - DB_NAME: ${DB_NAME}
+      - DB_MAX_POOL: ${DB_MAX_POOL}
+      - VOUCHER.SERVER.URL: ${VOUCHER.SERVER.URL}
+      - SECRET_KEY: ${SECRET_KEY}
+      - TIMEOUT.SEND.SMS: ${TIMEOUT.SEND.SMS}
+      - RABBITMQ.QUEUE: ${RABBITMQ.QUEUE}
+      - RABBITMQ.EXCHANGE: ${RABBITMQ.EXCHANGE}
+      - RABBITMQ.ROUTING_KEY: ${RABBITMQ.ROUTING_KEY}
+      - RABBITMQ.HOST: ${RABBITMQ.HOST}
+      - RABBITMQ.PORT: ${RABBITMQ.PORT}
+      - RABBITMQ.USERNAME: ${RABBITMQ.USERNAME}
+      - RABBITMQ.PASSWORD: ${RABBITMQ.PASSWORD}
 
-  jio-websocket:
-    build:
-      context: ./backend/jio-websocket
-      dockerfile: ./Dockerfile
-    #        image: ghcr.io/jiohealth/monorepo/jio-websocket:latest
-    image: jio-websocket:latest
-    container_name: jio-websocket
+  notification:
+    image: ghcr.io/longnguyencse/purchase-prepaid-data/notification:${NOTIFICATION_VERSION}
+    container_name: notification
     depends_on:
-      - jio-db
-      - jio-redis
+      - my-rabitmq
     ports:
-      - 8185:8080
+      - 9193:8080
     networks:
-      - jio-network
-    <<: *mysql-connection-data
+      - prepaid-data-network
+    restart: unless-stopped
+    environment:
+      - PROFILE: ${NOTIFICATION_PROFILE}
+      - RABBITMQ.QUEUE: ${RABBITMQ.QUEUE}
+      - RABBITMQ.EXCHANGE: ${RABBITMQ.EXCHANGE}
+      - RABBITMQ.ROUTING_KEY: ${RABBITMQ.ROUTING_KEY}
+      - RABBITMQ.HOST: ${RABBITMQ.HOST}
+      - RABBITMQ.PORT: ${RABBITMQ.PORT}
+      - RABBITMQ.USERNAME: ${RABBITMQ.USERNAME}
+      - RABBITMQ.PASSWORD: ${RABBITMQ.PASSWORD}
 
-  jio-pharmacy:
-    build:
-      context: ./backend/jio-pharmacy
-      dockerfile: ./Dockerfile
-    #        image: ghcr.io/jiohealth/monorepo/jio-pharmacy:latest
-    image: jio-pharmacy:latest
-    container_name: jio-pharmacy
-    depends_on:
-      - jio-db
-      - jio-redis
-    ports:
-      - 8186:8080
-    networks:
-      - jio-network
-    <<: *mysql-connection-data
-
-  jio-bff-mobile:
-    build:
-      context: ./backend/jio-bff-mobile
-      dockerfile: ./Dockerfile
-    #        image: ghcr.io/jiohealth/monorepo/jio-pharmacy:latest
-    image: jio-bff-mobile:latest
-    container_name: jio-bff-mobile
-    depends_on:
-      - jio-db
-    ports:
-      - 9091:9091
-    networks:
-      - jio-network
-    <<: *mysql-connection-data
-
-  jio-pharmacy-product:
-    build:
-      context: ./backend/jio-pharmacy-product
-      dockerfile: ./Dockerfile
-    #        image: ghcr.io/jiohealth/monorepo/jio-pharmacy:latest
-    image: jio-pharmacy-product:latest
-    container_name: jio-pharmacy-product
-    depends_on:
-      - jio-db
-      - jio-redis
-    ports:
-      - 9092:9092
-    networks:
-      - jio-network
-    <<: *mysql-connection-data
-
-volumes:
-  jio-db-volume:
-    name: jio-db-volume
 networks:
-  jio-network:
-    name: jio-network
+  prepaid-data-network:
+    name: jprepaid-data-network
     driver: bridge
