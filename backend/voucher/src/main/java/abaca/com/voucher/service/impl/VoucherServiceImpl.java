@@ -23,7 +23,7 @@ public class VoucherServiceImpl implements VoucherService {
       MessageDigest salt = MessageDigest.getInstance("SHA-256");
       salt.update(uuid.toString().getBytes(StandardCharsets.UTF_8));
       String digest = BytesToHex.bytesToHex(salt.digest());
-      int random = (int) (Math.random() * 50 + 1);
+      int random = (int) (Math.random() * 120 + 1);
       Thread.sleep(random * 1000);
       return VoucherDataDTO.builder().amount(purchasePrepaidDataDTO.getAmount())
           .voucherCode(digest).phone(purchasePrepaidDataDTO.getPhone()).currency("VND")
