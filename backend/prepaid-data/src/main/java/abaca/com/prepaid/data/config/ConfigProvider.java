@@ -1,5 +1,6 @@
 package abaca.com.prepaid.data.config;
 
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.HttpUrl;
@@ -16,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
+@Slf4j
 public class ConfigProvider {
 
     @Value("${app.path-voucher.server}")
@@ -41,6 +43,7 @@ public class ConfigProvider {
                         .addInterceptor(logging)
                         .connectionPool(new ConnectionPool(100, 30, TimeUnit.SECONDS))
                         .build();
+        log.info(" invoucherServerEndpoint: " + voucherServerEndpoint);
 
         return new Retrofit.Builder()
                 .baseUrl(HttpUrl.get(voucherServerEndpoint))
@@ -48,38 +51,4 @@ public class ConfigProvider {
                 .client(okHttpClient)
                 .build();
     }
-
-
-//    @Value("${javainuse.rabbitmq.queue}")
-//    String queueName;
-//
-//    @Value("${javainuse.rabbitmq.exchange}")
-//    String exchange;
-//
-//    @Value("${javainuse.rabbitmq.routingkey}")
-//    private String routingKey;
-//
-//    @Autowired
-//    MessageConverter messageConverter;
-//
-//    @Bean
-//    Queue queue() {
-//        return new Queue(queueName, false);
-//    }
-//
-//    @Bean
-//    DirectExchange exchange() {
-//        return new DirectExchange(exchange);
-//    }
-//
-//    @Bean
-//    Binding binding(Queue queue, DirectExchange exchange) {
-//        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
-//    }
-//
-//    @Bean
-//    public MessageConverter jsonMessageConverter() {
-//        return new Jackson2JsonMessageConverter();
-//    }
-
 }
