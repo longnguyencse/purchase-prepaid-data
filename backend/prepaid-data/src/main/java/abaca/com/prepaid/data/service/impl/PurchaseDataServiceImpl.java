@@ -161,4 +161,14 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
         }
         return null;
     }
+
+    @Override
+    public Boolean sendNotification(String msg) {
+        try {
+            return notificationService.sendSMS(msg);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return false;
+    }
 }

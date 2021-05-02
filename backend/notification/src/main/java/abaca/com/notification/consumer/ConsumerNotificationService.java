@@ -1,18 +1,24 @@
 package abaca.com.notification.consumer;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 
 @Component
 @Slf4j
+@RabbitListener(queues = "spring-queue")
 public class ConsumerNotificationService {
 
-    private CountDownLatch latch = new CountDownLatch(1);
+    private final CountDownLatch latch = new CountDownLatch(1);
 
-    public void receiveMessage(String message) {
-        System.out.println("Received <" + message + ">");
+    @RabbitHandler
+    public void receiveMessage(byte[] message) {
+        String msg = new String(message);
+        log.info("Received <" + msg + ">");
         latch.countDown();
     }
 

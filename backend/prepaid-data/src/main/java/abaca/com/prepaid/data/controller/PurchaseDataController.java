@@ -35,7 +35,7 @@ public class PurchaseDataController {
                 new CompletableFuture<>();
         ResultDTO<VoucherDataDTO> dataResult = ResultDTO.<VoucherDataDTO>builder().build();
 
-        //Validate phone
+        //TODO : Validate phone
 //        if(!PhoneUtils.isValidPhoneNumber(prepaidDataDTO.getPhone())) {
 //          log.warn("Phone number is invalid.");
 //          dataResult.setSuccess(false);
@@ -73,5 +73,13 @@ public class PurchaseDataController {
                                                          @RequestParam("size") Integer size) {
 
         return purchaseDataService.getAllVoucher(phone, page, size);
+    }
+
+    @PostMapping(value = "notification")
+    public ResultDTO<Boolean> sendNotification(@RequestParam("message") String message) {
+
+        return ResultDTO.<Boolean>builder()
+                .data(purchaseDataService.sendNotification(message))
+                .build();
     }
 }

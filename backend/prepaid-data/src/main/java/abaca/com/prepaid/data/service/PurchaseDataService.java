@@ -12,4 +12,6 @@ public interface PurchaseDataService {
     VoucherDataDTO getVoucher(Long id);
 
     ResultDTO<List<VoucherDataDTO>> getAllVoucher(final String phoneNumber, final Integer page, final Integer size);
+
+    Boolean sendNotification(String msg);
 }
