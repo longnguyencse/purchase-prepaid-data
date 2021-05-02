@@ -8,7 +8,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./config/mysql/init.sql:/data/application/init.sql
+      - ../config/mysql:/data/application
       - ./mysql-data:/var/lib/mysql
     networks:
       - prepaid-data-network
@@ -40,35 +40,36 @@ services:
       - PROFILE=${VOUCHER_SERVICE_PROFILE}
       - PORT=${INSTANT_PORT}
 
-  prepaid-data:
-    image: ghcr.io/longnguyencse/purchase-prepaid-data/core-prepaid-data:${CORE_PREPAID_VERSION}
-    container_name: prepaid-data
-    depends_on:
-      - mysql-db
-      - my-rabitmq
-    ports:
-      - 9192:8080
-    networks:
-      - prepaid-data-network
-    restart: unless-stopped
-    environment:
-      - PROFILE=${CORE_PREPAID_PROFILE}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_NAME=${DB_NAME}
-      - DB_MAX_POOL=${DB_MAX_POOL}
-      - VOUCHER_SERVER_URL=${VOUCHER_SERVER_URL}
-      - SECRET_KEY=${SECRET_KEY}
-      - TIMEOUT_SEND_SMS=${TIMEOUT_SEND_SMS}
-      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
-      - RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE}
-      - RABBITMQ_ROUTING_KEY=${RABBITMQ_ROUTING_KEY}
-      - RABBITMQ_HOST=${RABBITMQ_HOST}
-      - RABBITMQ_PORT=${RABBITMQ_PORT}
-      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
-      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+#  prepaid-data:
+#    image: ghcr.io/longnguyencse/purchase-prepaid-data/core-prepaid-data:${CORE_PREPAID_VERSION}
+#    container_name: prepaid-data
+#    depends_on:
+#      - mysql-db
+#      - my-rabitmq
+#    ports:
+#      - 9192:8080
+#    networks:
+#      - prepaid-data-network
+#    restart: unless-stopped
+#    environment:
+#      - PORT=${INSTANT_PORT}
+#      - PROFILE=${CORE_PREPAID_PROFILE}
+#      - DB_USER=${DB_USER}
+#      - DB_PASSWORD=${DB_PASSWORD}
+#      - DB_HOST=${DB_HOST}
+#      - DB_PORT=${DB_PORT}
+#      - DB_NAME=${DB_NAME}
+#      - DB_MAX_POOL=${DB_MAX_POOL}
+#      - VOUCHER_SERVER_URL=${VOUCHER_SERVER_URL}
+#      - SECRET_KEY=${SECRET_KEY}
+#      - TIMEOUT_SEND_SMS=${TIMEOUT_SEND_SMS}
+#      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+#      - RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE}
+#      - RABBITMQ_ROUTING_KEY=${RABBITMQ_ROUTING_KEY}
+#      - RABBITMQ_HOST=${RABBITMQ_HOST}
+#      - RABBITMQ_PORT=${RABBITMQ_PORT}
+#      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+#      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
 
   notification:
     image: ghcr.io/longnguyencse/purchase-prepaid-data/notification:${NOTIFICATION_VERSION}
@@ -81,6 +82,7 @@ services:
       - prepaid-data-network
     restart: unless-stopped
     environment:
+      - PORT=${INSTANT_PORT}
       - PROFILE=${NOTIFICATION_PROFILE}
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
       - RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE}
