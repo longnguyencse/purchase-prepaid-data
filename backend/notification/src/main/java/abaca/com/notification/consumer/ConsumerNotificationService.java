@@ -5,12 +5,11 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 
 @Component
 @Slf4j
-@RabbitListener(queues = "spring-queue")
+@RabbitListener(queues = "${javainuse.rabbitmq.queue}")
 public class ConsumerNotificationService {
 
     private final CountDownLatch latch = new CountDownLatch(1);
