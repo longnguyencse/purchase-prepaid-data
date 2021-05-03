@@ -20,6 +20,7 @@ frameworks being used
 - OKHTTP2
 - Message queue: RabitMQ
 - Github CI/CD
+- The Advanced Encryption Standard (AES)
 # All the required steps in order to get the application run on a local computer
 - Install docker
 - run command on infrastructure folder: docker-compose up

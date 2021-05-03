@@ -40,7 +40,7 @@ services:
       - PROFILE=${VOUCHER_SERVICE_PROFILE}
       - PORT=${INSTANT_PORT}
     volumes:
-      - /var/log/voucher-service:/home/application/java/logs
+      - ./log/voucher:/home/application/java/logs
 
   prepaid-data:
     image: ghcr.io/longnguyencse/purchase-prepaid-data/core-prepaid-data:${CORE_PREPAID_VERSION}
