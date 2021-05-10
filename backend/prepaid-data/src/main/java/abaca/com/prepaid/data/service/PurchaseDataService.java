@@ -14,4 +14,6 @@ public interface PurchaseDataService {
     ResultDTO<List<VoucherDataDTO>> getAllVoucher(final String phoneNumber, final Integer page, final Integer size);
 
     Boolean sendNotification(String msg);
+
+    ResultDTO<VoucherDataDTO> processPurchaseDataForMobile(final PrepaidDataDTO prepaidDataDTO);
 }

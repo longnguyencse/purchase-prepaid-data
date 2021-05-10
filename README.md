@@ -1,3 +1,6 @@
+# ERD
+![ERD](https://github.com/longnguyencse/purchase-prepaid-data/erd.png?raw=true)
+
 # A brief explanation for the software development principles, patterns & practices
 being applied
 - SOLID principles

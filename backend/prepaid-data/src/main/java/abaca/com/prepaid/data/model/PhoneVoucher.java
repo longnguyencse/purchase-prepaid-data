@@ -30,16 +30,16 @@ public class PhoneVoucher implements Serializable {
     @Column(name = "status")
     private Short status;
 
-  @Column(name = "voucher_code")
-  private String voucherCode;
+    @Column(name = "voucher_code")
+    private String voucherCode;
 
-  @Column(name = "voucher_amount", columnDefinition = "decimal(20,2)")
-  private BigDecimal voucherAmount;
+    @Column(name = "voucher_amount", columnDefinition = "decimal(20,2)")
+    private BigDecimal voucherAmount;
 
-  @Column(name = "create_time")
-  private LocalDateTime createTime;
+    @Column(name = "create_time")
+    private LocalDateTime createTime;
 
-  @Column(name = "transmission_time")
-  private LocalDateTime transmissionTime;
+    @Column(name = "transmission_time")
+    private LocalDateTime transmissionTime;
 
 }

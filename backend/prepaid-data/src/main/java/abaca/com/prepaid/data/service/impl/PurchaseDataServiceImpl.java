@@ -25,6 +25,7 @@ import retrofit2.Retrofit;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
@@ -170,5 +171,25 @@ public class PurchaseDataServiceImpl implements PurchaseDataService {
             log.error(e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public ResultDTO<VoucherDataDTO> processPurchaseDataForMobile(PrepaidDataDTO prepaidDataDTO) {
+        final String phoneStr = prepaidDataDTO.getPhone();
+        final LocalDateTime currentTime = LocalDateTime.now();
+        ResultDTO<VoucherDataDTO> dataResult = ResultDTO.<VoucherDataDTO>builder().build();
+
+        PhoneVoucher phoneVoucherEntity = PhoneVoucher.builder().phoneNumber(phoneStr).createTime(currentTime)
+                .transmissionTime(currentTime)
+                .status(PhoneTransactionEnum.PREPARING_VOUCHER_DATA.getValue()).build();
+        phoneVoucherRepository.save(phoneVoucherEntity);
+        log.info("ID " + phoneVoucherEntity.getId());
+        Long phoneVoucherID = phoneVoucherEntity.getId();
+        dataResult = ResultDTO.<VoucherDataDTO>builder()
+                .data(VoucherDataDTO.builder()
+                        .id(phoneVoucherEntity.getId())
+                        .build()).message("Voucher is being prepared...").build();
+        CompletableFuture.runAsync(() -> purchaseData(prepaidDataDTO, phoneVoucherID));
+        return dataResult;
     }
 }
